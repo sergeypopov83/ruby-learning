@@ -17,7 +17,7 @@ class BlocksTest < Minitest::Test
     assert_equal(expected, input.even_reduce(0) { |acc, item| acc + item })
   end
 
-  def test_even_reduce
+  def test_second_even_reduce
     input = [11, -2, 32, 14, -5, 26]
     expected = 38
 
@@ -39,7 +39,9 @@ class Array
   # @yield [item] Gives array element to block
   # @return [Array]
   def even_map
-    raise 'Implement me'
+    self.select_even.map { |item|
+      yield(item)
+    }
   end
 
   # Reduce only elements with even indexes
@@ -47,7 +49,9 @@ class Array
   # @yield [item] Gives array element to block
   # @return [Fixnum]
   def even_reduce(acc)
-    raise 'Implement me'
+    self.select_even.reduce(acc) { |result, item|
+      yield(result, item)
+    }
   end
 
   # Reduce only elements with even indexes
@@ -55,7 +59,9 @@ class Array
   # @param [lambda]
   # @return [Fixnum]
   def even_reduce_arg(acc, func)
-    raise 'Implement me'
+    self.select_even.reduce(acc) { |result, item|
+      func.call(result, item)
+    }
   end
 
   # Map elements
@@ -63,7 +69,19 @@ class Array
   # @yield [prev, current, nexts] Gives current and sibling elements to block
   # @return [Fixnum]
   def map_with_siblings
-    raise 'Implement me'
+    self.map.with_index { |_, index|
+      yield(
+        index > 0 ? self.at(index - 1) : nil,
+        self[index],
+        index < self.count() - 1 ? self[index + 1] : nil
+      )
+    }
+  end
+
+  protected
+
+  def select_even
+    self.select.each_with_index { |_, index| index.even? }
   end
 end
 
