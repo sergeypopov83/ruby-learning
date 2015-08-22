@@ -24,7 +24,7 @@ class ServerHelper
     servers.select { |server|
       server[:ram].reduce(:+) > 100
     }.map{ |item|
-        item[:id]
+      item[:id]
     }
   end
 

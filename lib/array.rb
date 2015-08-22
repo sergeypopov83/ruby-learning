@@ -37,9 +37,9 @@ class Array
   def map_with_siblings
     self.map.with_index { |_, index|
       yield(
-          index > 0 ? self.at(index - 1) : nil,
-              self[index],
-              index < self.count() - 1 ? self[index + 1] : nil
+        index > 0 ? self.at(index - 1) : nil,
+          self[index],
+          index < self.count() - 1 ? self[index + 1] : nil
       )
     }
   end
