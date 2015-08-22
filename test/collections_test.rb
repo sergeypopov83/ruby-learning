@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require_relative '../lib/server_helper'
 
 class CollectionsTest < Minitest::Test
 
@@ -29,18 +30,18 @@ class CollectionsTest < Minitest::Test
   end
 
   def test_ssd_only
-    assert_equal [1], find_ssd_only_ids(@servers)
+    assert_equal [1], ServerHelper.find_ssd_only_ids(@servers)
   end
 
   def test_find_ids_with_ram_over_100
-    assert_equal [2, 3], find_ids_with_ram_over_100(@servers)
+    assert_equal [2, 3], ServerHelper.find_ids_with_ram_over_100(@servers)
   end
 
   def test_find_ssd_volume_per_server
-    assert_equal [{1 => 1600}, {2 => 0}, {3 => 800}], find_ssd_volume_per_server(@servers)
+    assert_equal [{1 => 1600}, {2 => 0}, {3 => 800}], ServerHelper.find_ssd_volume_per_server(@servers)
   end
 
   def test_sorted_ids_by_cpu_frequency
-    assert_equal [3, 1, 2], sorted_ids_by_cpu_frequency(@servers)
+    assert_equal [3, 1, 2], ServerHelper.sorted_ids_by_cpu_frequency(@servers)
   end
 end
