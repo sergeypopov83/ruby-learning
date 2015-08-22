@@ -8,4 +8,4 @@ task|status
 ----|------
 test/blocks_test.rb|done
 test/collections_test.rb|done
-test/class_test.rb|pending...
+test/class_test.rb|done
