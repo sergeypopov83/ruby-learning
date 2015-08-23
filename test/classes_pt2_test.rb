@@ -48,8 +48,12 @@ class ClassesPt2Test < MiniTest::Test
     assert_equal message, err.message
   end
 
+  def assert_invalid_configuration(message, &block)
+    assert_raises_with_message(InvalidConfiguration, message, &block)
+  end
+
   def test_too_much_cpu
-    assert_raises_with_message InvalidConfiguration, 'No more sockets left' do
+    assert_invalid_configuration 'No more sockets left' do
       server = R530.new
       server.cpu << E5_4650.new
       server.cpu << E5_4650.new
@@ -58,14 +62,14 @@ class ClassesPt2Test < MiniTest::Test
   end
 
   def test_invalid_cpu_type
-    assert_raises_with_message InvalidConfiguration, 'Unsupported CPU type' do
+    assert_invalid_configuration 'Unsupported CPU type' do
       server = R530.new
       server.cpu << E5_2620.new
     end
   end
 
   def test_different_cpu
-    assert_raises_with_message InvalidConfiguration, 'All CPUs should by identical' do
+    assert_invalid_configuration 'All CPUs should by identical' do
       server = R530.new
       server.cpu << E5_4650.new
       server.cpu << E5_4660.new  # more cores then 4650
@@ -73,14 +77,14 @@ class ClassesPt2Test < MiniTest::Test
   end
 
   def test_too_much_memory
-    assert_raises_with_message InvalidConfiguration, 'No more memory slots left' do
+    assert_invalid_configuration 'No more memory slots left' do
       server = R920.new
       33.times { server.memory << DDR3_16.new } # oops.. 32 slots only
     end
   end
 
   def test_invalid_memory_type
-    assert_raises_with_message InvalidConfiguration, 'Unsupported memory type' do
+    assert_invalid_configuration 'Unsupported memory type' do
       server = R920.new
       server.memory << DDR4_16.new
     end
